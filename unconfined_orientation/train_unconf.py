@@ -165,16 +165,16 @@ def train_model(model, criterion, optimizer, scheduler, num_workers = 2,  num_ep
 #	output_path = sprintf("/home/ruoshiliu/ansim/models/%0.4d.weights" % epoc
     return model
 # transfer learning resnet18
-step_size = 10
+step_size = 16
 
 model = MtConvLSTM(input_size=(128,128),
                  input_dim=2,
-                 hidden_dim=[[16,32,64],[16,32,64],[32,64,128],[32,64,128,128]],
-                 kernel_size=[[3,3,3],[5,3,3],[5,5,5],[7,5,5,5]],
-                 num_layers=[3,3,3,4],
-                 predict_steps=5,
+                 hidden_dim=[[32,64,128,128]],
+                 kernel_size=[[7,5,5,5]],
+                 num_layers=[4],
+                 predict_steps=8,
                  batch_first=True,
-                 num_scale=4,
+                 num_scale=1,
                  bias=True,
                  return_all_layers=True,
                  interpolation = 0)
@@ -212,7 +212,7 @@ exp_lr_scheduler = lr_scheduler.StepLR(optimizer_ft, step_size=30, gamma=0.5)
 model = train_model(model, criterion, optimizer_ft, 
             exp_lr_scheduler,
             batch_size = 16,
-            step_size = 10,
+            step_size = 16,
             num_epochs = 240,
             num_workers = 1,
             image_size = 128)
